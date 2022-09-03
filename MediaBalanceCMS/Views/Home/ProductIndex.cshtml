@@ -1,0 +1,53 @@
+﻿@model MediaBalanceCMS.Models.VM.ProductCatagoryVM
+
+@{
+    ViewData["Title"] = "ProductIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="position: absolute; margin-top: 160px;">
+
+    <a asp-action="CatagoryAdd" class="btn btn-warning" style=" margin-bottom: 20px; margin-left: 20px;">Catagory</a><br />
+    <a asp-action="ProductAdd" class="btn btn-warning" style=" margin-bottom: 20px; margin-left: 20px;">Product</a>
+</div>
+
+<div class="container">
+    <a asp-action="Index" class="btn btn-secondary" style="margin-bottom:10px; float:right">Log Out</a>
+
+    <div class="justify-content-center h-100" style="padding-top: 60px;">
+        <h1 class="indexTitle" style="margin-bottom: 50px;">ALL SKYLINE PRODUCTS</h1>
+
+        <div class="card" style=" height: 488px; margin: 0px 110px; ">
+            <div class="card-body" >
+                <table class="table table-striped" style="color: white;">
+                    <thead >
+                        <tr>
+                            <th class="tableNmae" scope="col">Category</th>
+                            <th class="tableNmae" scope="col">Name</th>
+                            <th class="tableNmae" scope="col">Price</th>
+                            <th class="tableNmae" scope="col">Color</th>
+                            <th class="tableNmae" scope="col">Whiting</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProductVMs)
+                        {
+
+                            <tr>
+                                <td>@item.CategoryName</td>
+                                <td>@item.Name</td>
+                                <td>@item.Price $</td>
+                                <td>@item.Color</td>
+                                <td>@item.Whiting kq</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
