@@ -41,14 +41,14 @@ namespace MediaBalanceCMS.Controllers
             }
             return View();
         }
-      
+
         //Hosted web API REST Service base url
         string Baseurl = "https://localhost:44350/";
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(UserLoginVM userLoginVM)
         {
-            
+
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -59,7 +59,7 @@ namespace MediaBalanceCMS.Controllers
 
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("user", userLoginVM);
-             
+
                 if (Res.IsSuccessStatusCode == false)
                 {
                     return RedirectToAction("Index", new { id = 1 });
@@ -92,7 +92,7 @@ namespace MediaBalanceCMS.Controllers
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("user/userregister", userRegisterVM);
 
-                if(Res.IsSuccessStatusCode == false)
+                if (Res.IsSuccessStatusCode == false)
                 {
                     return RedirectToAction("UserRegister", new { id = 1 });
                 }
@@ -101,10 +101,15 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
-       // [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> ProductIndex()
+        public async Task<IActionResult> ProductIndex(int? id)
         {
+            if (id == 3)
+            {
+                ViewBag.Modal = 3;
+            }
+
             List<ProductVM> resultCategories = null;
             using (var client = new HttpClient())
             {
@@ -124,20 +129,29 @@ namespace MediaBalanceCMS.Controllers
                 ProductVMs = resultCategories,
                 CategoryVMs = null
             };
-       
+
             return View(vm);
         }
 
         [HttpGet]
-        public IActionResult CatagoryAdd()
+        public IActionResult CatagoryAdd(int? id)
         {
+            if (id == 4)
+            {
+                ViewBag.Modal = 4;
+            }
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CatagoryAdd(CategoryVM categoryVM )
+        public async Task<IActionResult> CatagoryAdd(CategoryVM categoryVM)
         {
+            if (categoryVM.Name == null)
+            {
+                return RedirectToAction("CatagoryAdd", new { id = 4 });
+            }
+
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -149,13 +163,17 @@ namespace MediaBalanceCMS.Controllers
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("home/postcategory", categoryVM);
 
-                return RedirectToAction("ProductIndex", "Home"); ;
+                return RedirectToAction("ProductIndex", new { id = 3 });
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProductAdd()
+        public async Task<IActionResult> ProductAdd(int? id)
         {
+            if (id == 4)
+            {
+                ViewBag.Modal = 4;
+            }
             List<CategoryVM> resultCategories = null;
             using (var client = new HttpClient())
             {
@@ -169,11 +187,8 @@ namespace MediaBalanceCMS.Controllers
                 HttpResponseMessage Res = await client.GetAsync("home/getcategory");
                 var categories = Res.Content.ReadAsStringAsync();
                 resultCategories = JsonConvert.DeserializeObject<List<CategoryVM>>(categories.Result);
-                //Checking the response is successful or not which is sent using HttpClient
-               
-                //returning the employee list to view
-            }
 
+            }
             ProductCatagoryVM vm = new ProductCatagoryVM()
             {
                 ProductVMs = null,
@@ -186,6 +201,10 @@ namespace MediaBalanceCMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductAdd(ProductVM productVM)
         {
+            if (productVM.CategoryId == 0 || productVM.Name == null || productVM.Price == null)
+            {
+                return RedirectToAction("ProductAdd", new { id = 4 });
+            }
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -196,8 +215,8 @@ namespace MediaBalanceCMS.Controllers
 
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("home/postproduct", productVM);
-               
-                return RedirectToAction("ProductIndex", "Home"); ;
+
+                return RedirectToAction("ProductIndex", new { id = 3 });
             }
         }
 

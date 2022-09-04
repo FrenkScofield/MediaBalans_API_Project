@@ -18,9 +18,9 @@
         <h1 class="indexTitle" style="margin-bottom: 50px;">ALL SKYLINE PRODUCTS</h1>
 
         <div class="card" style=" height: 488px; margin: 0px 110px; ">
-            <div class="card-body" >
+            <div class="card-body">
                 <table class="table table-striped" style="color: white;">
-                    <thead >
+                    <thead>
                         <tr>
                             <th class="tableNmae" scope="col">Category</th>
                             <th class="tableNmae" scope="col">Name</th>
@@ -45,9 +45,44 @@
                     </tbody>
                 </table>
             </div>
+
+            @if (ViewBag.Modal == 3)
+            {
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="alert alert-success" role="alert">
+                            Succeed Added
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-exampleModalCenter" class="btn d-none" data-toggle="modal" data-target="#exampleModalCenter"></button>
+
+            }
         </div>
+
+
 
     </div>
 
 </div>
 
+@section scripts{
+    <script src="/vendor/jquery/jquery.min.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+
+        $('#btn-exampleModalCenter').trigger('click');
+
+        setTimeout(() => {
+            $("#exampleModalCenter").modal('hide');
+        }, 1500);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');</script>
+
+}

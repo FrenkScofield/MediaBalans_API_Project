@@ -10,5 +10,6 @@ namespace MediaBalanceCMS.Models.VM
         public IEnumerable<ProductVM> ProductVMs { get; set; }
 
         public IEnumerable<CategoryVM> CategoryVMs { get; set; }
+
     }
 }

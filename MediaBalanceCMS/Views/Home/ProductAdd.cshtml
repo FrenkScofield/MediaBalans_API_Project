@@ -17,7 +17,7 @@
 
         <div class="card" style=" height: 400px; width: 400px; margin-left: 32%;">
             <div class="card-body">
-                <a asp-action="ProductIndex" class="btn btn-secondary" style="margin-bottom:10px; float:right">Back to Index</a>
+                <a asp-action="ProductIndex" class="btn btn-secondary" style="margin-bottom:10px; float:right">Back to Product Index</a>
 
                 <form asp-action="ProductAdd" method="post">
                     <div class="input-group form-group">
@@ -48,8 +48,35 @@
                     </div>
                 </form>
             </div>
-
+            @if (ViewBag.Modal == 4)
+            {
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="alert alert-danger" role="alert">
+                            Please Enter Required Category Name Product Name and Product Price
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-exampleModalCenter" class="btn d-none" data-toggle="modal" data-target="#exampleModalCenter"></button>
+            }
         </div>
     </div>
 
 </div>
+@section scripts{
+    <script>
+
+        $('#btn-exampleModalCenter').trigger('click');
+
+        setTimeout(() => {
+            $("#exampleModalCenter").modal('hide');
+        }, 2200);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-23581568-13');</script>
+
+}

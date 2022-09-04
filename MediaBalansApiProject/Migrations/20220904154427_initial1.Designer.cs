@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediaBalansApiProject.Migrations
 {
     [DbContext(typeof(MB_Context))]
-    [Migration("20220903152942_initial8")]
-    partial class initial8
+    [Migration("20220904154427_initial1")]
+    partial class initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
