@@ -2,7 +2,9 @@ using MediaBalansApiProject.DAL;
 using MediaBalansApiProject.Models;
 using MediaBalansApiProject.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,16 +49,18 @@ namespace MediaBalansApiProject
             services.AddDbContext<MB_Context>(options => options.UseSqlServer(_configuration.GetConnectionString("connect")));
 
             services.AddIdentity<User, IdentityRole>()
-                    .AddEntityFrameworkStores<MB_Context>()                   
+                    .AddEntityFrameworkStores<MB_Context>()
                     .AddDefaultTokenProviders();
 
             services.AddScoped<UserService>();
+
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSwaggerGen();
 
             services.AddAuthentication();
+
             services.AddAuthorization();
 
             services.AddControllers();
@@ -91,7 +95,7 @@ namespace MediaBalansApiProject
                 throw;
             }
 
-            
+
 
             // find the user with the admin email 
             var _user = await UserManager.FindByEmailAsync("admin@email.com");
@@ -139,10 +143,11 @@ namespace MediaBalansApiProject
                 endpoints.MapControllers();
             });
 
-             CreateRoles(serviceProvider).GetAwaiter().GetResult();
+            CreateRoles(serviceProvider).GetAwaiter().GetResult();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
 
             });

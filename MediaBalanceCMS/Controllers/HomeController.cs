@@ -101,7 +101,7 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> ProductIndex(int? id)
         {
@@ -220,6 +220,19 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                //Passing service base url
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                //root action(proDelete/{id}) should be like this
+                var deleteTask = await client.DeleteAsync($"home/proDelete/{id}");
+
+                return RedirectToAction("ProductIndex");
+            }
+        }
 
     }
 }

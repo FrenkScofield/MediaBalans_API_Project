@@ -16,41 +16,39 @@ namespace MediaBalansApiProject.Controllers
     public class HomeController : ControllerBase
     {
         private readonly UserService _userService;
-        private readonly MB_Context _context;
 
 
 
-        public HomeController(UserService userService, MB_Context context)
+        public HomeController(UserService userService)
         {
             _userService = userService;
-            _context = context;
 
         }
 
         [HttpPost]
         [Route("postcategory")]
 
-        public IActionResult AddCatagory(CatagoryReguest catagoryReguest )
+        public IActionResult AddCatagory(CatagoryReguest catagoryReguest)
         {
             _userService.PostCatagory(catagoryReguest);
 
             return Ok("success");
         }
-        
+
 
 
         [HttpGet]
         [Route("productIndex")]
         public IActionResult GetProduct()
         {
-            var products =_userService.GetProdact();
+            var products = _userService.GetProdact();
 
             List<ProductReguest> productReguests = new List<ProductReguest>();
 
             foreach (var item in products)
             {
                 ProductReguest productReguests1 = new ProductReguest();
-
+                productReguests1.Id = item.Id;
                 productReguests1.Name = item.Name;
                 productReguests1.Price = item.Price;
                 productReguests1.Color = item.Color;
@@ -69,7 +67,7 @@ namespace MediaBalansApiProject.Controllers
         [Route("getcategory")]
         public IActionResult GetCatagory()
         {
-          var categories = _userService.GetCatagory();
+            var categories = _userService.GetCatagory();
 
             List<CatagoryReguest> catagoryReguest = new List<CatagoryReguest>();
 
@@ -82,18 +80,26 @@ namespace MediaBalansApiProject.Controllers
 
                 catagoryReguest.Add(catagoryReguest1);
             }
-           
+
 
             return Ok(catagoryReguest);
         }
 
         [HttpPost]
         [Route("postproduct")]
-        public IActionResult AddProduct(ProductReguest productReguest )
+        public IActionResult AddProduct(ProductReguest productReguest)
         {
             _userService.PostProduct(productReguest);
 
             return Ok("success");
+        }
+
+        [HttpDelete]
+        [Route("proDelete/{id}")]
+        public IActionResult ProductDelete(int id)
+        {
+            _userService.ProductDelete(id);
+            return Ok();
         }
     }
 }

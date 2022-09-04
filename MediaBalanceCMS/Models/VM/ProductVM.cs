@@ -7,6 +7,7 @@ namespace MediaBalanceCMS.Models.VM
 {
     public class ProductVM
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Price { get; set; }
         public string Whiting { get; set; }
