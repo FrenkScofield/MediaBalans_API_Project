@@ -101,7 +101,7 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
-       // [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> ProductIndex(int? id)
         {
@@ -159,10 +159,8 @@ namespace MediaBalanceCMS.Controllers
                 client.DefaultRequestHeaders.Clear();
                 //Define request data format
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("home/postcategory", categoryVM);
-
                 return RedirectToAction("ProductIndex", new { id = 3 });
             }
         }
@@ -220,6 +218,8 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
+
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             using (var client = new HttpClient())
@@ -231,6 +231,31 @@ namespace MediaBalanceCMS.Controllers
                 var deleteTask = await client.DeleteAsync($"home/proDelete/{id}");
 
                 return RedirectToAction("ProductIndex");
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProductEdidt(int id)
+        {
+          ProductVM resultCategories = null;
+            using (var client = new HttpClient())
+            {
+                //Passing service base url
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+                HttpResponseMessage Res = await client.GetAsync($"home/proEdit/{id}");
+                var products = Res.Content.ReadAsStringAsync();
+                resultCategories = JsonConvert.DeserializeObject<ProductVM>(products.Result);
+
+                //ProductCatagoryVM vm = new ProductCatagoryVM()
+                //{
+                //    ProductVM = resultCategories,
+                //    CategoryVMs = null
+                //};
+                return View(resultCategories);
             }
         }
 

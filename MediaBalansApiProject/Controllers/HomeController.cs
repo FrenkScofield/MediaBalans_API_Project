@@ -35,8 +35,6 @@ namespace MediaBalansApiProject.Controllers
             return Ok("success");
         }
 
-
-
         [HttpGet]
         [Route("productIndex")]
         public IActionResult GetProduct()
@@ -100,6 +98,35 @@ namespace MediaBalansApiProject.Controllers
         {
             _userService.ProductDelete(id);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("proEdit/{id}")]
+        public IActionResult ProductEdit(int id)
+        {
+            var products = _userService.ProductEdit();
+
+            ProductReguest productReguests = new ProductReguest();
+
+            foreach (var item in products)
+            {
+                ProductReguest productReguests1 = new ProductReguest();
+
+                if (item.Id == id)
+                {
+                    productReguests1.Id = item.Id;
+                    productReguests1.Name = item.Name;
+                    productReguests1.Price = item.Price;
+                    productReguests1.Color = item.Color;
+                    productReguests1.Whiting = item.Whiting;
+                    productReguests1.CategoryId = item.CategoryId;
+                    productReguests1.CategoryName = item.Category.Name;
+
+                    productReguests = productReguests1;
+                }
+            }
+            return Ok(productReguests);
+
         }
     }
 }

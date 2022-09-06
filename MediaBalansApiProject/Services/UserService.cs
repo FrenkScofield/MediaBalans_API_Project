@@ -87,8 +87,13 @@ namespace MediaBalansApiProject.Services
             {
                 _context.Products.Remove(pro);
             }
-
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Product> ProductEdit()
+        {
+            //var pro = _context.Products.Find(id);
+              return _context.Products.Include(c => c.Category).ToList();
         }
     }
 }
