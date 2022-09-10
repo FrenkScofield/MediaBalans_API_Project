@@ -20,6 +20,11 @@ namespace MediaBalansApiProject
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+
+            .ConfigureLogging(conf =>
+            {
+                conf.AddConsole();
+            })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

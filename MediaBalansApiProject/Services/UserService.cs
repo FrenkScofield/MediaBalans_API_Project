@@ -92,8 +92,9 @@ namespace MediaBalansApiProject.Services
 
         public IEnumerable<Product> ProductEdit()
         {
-            //var pro = _context.Products.Find(id);
-              return _context.Products.Include(c => c.Category).ToList();
+            var pro = _context.Products.Include(c => c.Category).ToList();
+
+            return (pro);
         }
     }
 }

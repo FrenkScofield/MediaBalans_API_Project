@@ -12,7 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-
+using static MediaBalanceCMS.Models.VM.ProductCategoryResponseVM;
 
 namespace MediaBalanceCMS.Controllers
 {
@@ -238,7 +238,6 @@ namespace MediaBalanceCMS.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductEdidt(int id)
         {
-          ProductVM resultCategories = null;
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -248,14 +247,15 @@ namespace MediaBalanceCMS.Controllers
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.GetAsync($"home/proEdit/{id}");
                 var products = Res.Content.ReadAsStringAsync();
-                resultCategories = JsonConvert.DeserializeObject<ProductVM>(products.Result);
-
-                //ProductCatagoryVM vm = new ProductCatagoryVM()
-                //{
-                //    ProductVM = resultCategories,
-                //    CategoryVMs = null
-                //};
-                return View(resultCategories);
+                //If there is a list and a single value in the incoming response, first of all, it is necessary to create the appropriate class and meet it.
+                var productCatagoryVM = JsonConvert.DeserializeObject<RootProductCategoryResponseVM>(products.Result);
+                
+                ResponsVM vm = new ResponsVM()
+                {
+                    productReguest = productCatagoryVM.productReguest,
+                    catagoryReguests = productCatagoryVM.catagoryReguests
+                };
+                return View(vm);
             }
         }
 

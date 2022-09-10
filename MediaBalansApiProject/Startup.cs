@@ -1,4 +1,5 @@
 using MediaBalansApiProject.DAL;
+using MediaBalansApiProject.Middlawares;
 using MediaBalansApiProject.Models;
 using MediaBalansApiProject.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -133,6 +134,8 @@ namespace MediaBalansApiProject
 
             app.UseHttpsRedirection();
 
+            app.UseMiddleware<ReguestResponceMiddleware>();
+            
             app.UseRouting();
 
             app.UseAuthentication();

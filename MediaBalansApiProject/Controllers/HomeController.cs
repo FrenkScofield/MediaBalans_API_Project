@@ -16,12 +16,12 @@ namespace MediaBalansApiProject.Controllers
     public class HomeController : ControllerBase
     {
         private readonly UserService _userService;
+        private readonly MB_Context _context;
 
-
-
-        public HomeController(UserService userService)
+        public HomeController(UserService userService, MB_Context context)
         {
             _userService = userService;
+            _context = context;
 
         }
 
@@ -106,7 +106,23 @@ namespace MediaBalansApiProject.Controllers
         {
             var products = _userService.ProductEdit();
 
-            ProductReguest productReguests = new ProductReguest();
+            var category = _context.Categories.ToList();
+
+            CatagoryProductReguest catagoryProductReguest = new CatagoryProductReguest();
+
+            List<CatagoryReguest> catagoryReguest = new List<CatagoryReguest>();
+
+            foreach (var item in category)
+            {
+                CatagoryReguest catagoryReguest1 = new CatagoryReguest();
+
+                catagoryReguest1.Name = item.Name;
+                catagoryReguest1.Id = item.Id;
+
+                catagoryReguest.Add(catagoryReguest1);
+
+            }
+            catagoryProductReguest.CatagoryReguests = catagoryReguest;
 
             foreach (var item in products)
             {
@@ -122,10 +138,11 @@ namespace MediaBalansApiProject.Controllers
                     productReguests1.CategoryId = item.CategoryId;
                     productReguests1.CategoryName = item.Category.Name;
 
-                    productReguests = productReguests1;
+                    catagoryProductReguest.ProductReguest = productReguests1;
                 }
             }
-            return Ok(productReguests);
+
+            return Ok(catagoryProductReguest);
 
         }
     }
