@@ -15,7 +15,7 @@ namespace MediaBalansApiProject.Services
     {
         private readonly MB_Context _context;
 
-        public UserService (MB_Context context )
+        public UserService(MB_Context context)
         {
             _context = context;
 
@@ -25,7 +25,7 @@ namespace MediaBalansApiProject.Services
         {
             var user = new User()
             {
-                
+
                 Firstname = addUserRequest.Name,
                 Surname = addUserRequest.Surname,
                 UserName = addUserRequest.Username,
@@ -33,25 +33,25 @@ namespace MediaBalansApiProject.Services
                 PhoneNumber = addUserRequest.Phone,
                 Address = addUserRequest.Address,
                 Password = addUserRequest.Password
-        };
+            };
             _context.Users.Add(user);
             _context.SaveChanges();
         }
 
-        public void PostCatagory(CatagoryReguest catagoryReguest )
+        public void PostCatagory(CatagoryReguest catagoryReguest)
         {
 
             var cat = new Category()
             {
 
-               Name = catagoryReguest.Name
+                Name = catagoryReguest.Name
             };
 
             _context.Categories.Add(cat);
             _context.SaveChanges();
         }
-      
-        public void PostProduct(ProductReguest productReguest  )
+
+        public void PostProduct(ProductReguest productReguest)
         {
 
             var pro = new Product()
@@ -68,10 +68,10 @@ namespace MediaBalansApiProject.Services
             _context.Products.Add(pro);
             _context.SaveChanges();
         }
-       
+
         public IEnumerable<Product> GetProdact()
         {
-            return _context.Products.Include(c=>c.Category).ToList();
+            return _context.Products.Include(c => c.Category).ToList();
         }
 
         public IEnumerable<Category> GetCatagory()
@@ -95,6 +95,21 @@ namespace MediaBalansApiProject.Services
             var pro = _context.Products.Include(c => c.Category).ToList();
 
             return (pro);
+        }
+
+        public void ProductEdit(ProductReguest productReguest)
+        {
+            Product product = _context.Products.Find(productReguest.Id);
+
+            if (product.Id == productReguest.Id)
+            {
+                product.Name = productReguest.Name;
+                product.Whiting = productReguest.Whiting;
+                product.Color = productReguest.Color;
+                product.Price = productReguest.Price;
+                product.CategoryId = productReguest.CategoryId;
+            }
+            _context.SaveChanges();
         }
     }
 }

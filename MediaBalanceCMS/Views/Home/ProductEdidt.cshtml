@@ -18,25 +18,26 @@
             <div class="card-body">
                 <a asp-action="ProductIndex" class="btn btn-secondary" style="margin-bottom:10px; float:right">Back to Product Index</a>
 
-                <form asp-action="ProductAdd" method="post">
+                <form asp-action="ProductEdidt" method="post">
                     <div class="input-group form-group">
-                        <select style="color: #8b9b8b; width: 100%; height: 45px; border-radius: 5px; padding-left: 16px; " name="CategoryId" asp-for="productReguest.categoryId" class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
+                        <select style="color: #8b9b8b; width: 100%; height: 45px; border-radius: 5px; padding-left: 16px; " name="productReguest.CategoryId" asp-for="productReguest.CategoryId" class="form-select" aria-label="Default select example">
+                            <option selected>Select Category</option>
                             @foreach (var item in Model.catagoryReguests)
                             {
-                                <option style="color:black" value="@item.id">@item.name</option>
+                                <option style="color:black" value="@item.Id">@item.Name</option>
                             }
-
                         </select>
                     </div>
+
+                    <input type="hidden" asp-for="productReguest.Id" />
                     <div class="input-group form-group">
-                        <input type="text" asp-for="productReguest.name" class="form-control">
+                        <input type="text" asp-for="productReguest.Name" class="form-control">
                     </div><div class="input-group form-group">
-                        <input type="text" asp-for="productReguest.price" class="form-control">
+                        <input type="text" asp-for="productReguest.Price" class="form-control">
                     </div><div class="input-group form-group">
-                        <input type="text" asp-for="productReguest.whiting" class="form-control">
+                        <input type="text" asp-for="productReguest.Whiting" class="form-control">
                     </div><div class="input-group form-group">
-                        <input type="text" asp-for="productReguest.color" class="form-control">
+                        <input type="text" asp-for="productReguest.Color" class="form-control">
                     </div>
 
                     <div class="form-group">

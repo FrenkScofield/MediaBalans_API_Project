@@ -218,7 +218,6 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -234,7 +233,6 @@ namespace MediaBalanceCMS.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> ProductEdidt(int id)
         {
@@ -249,13 +247,44 @@ namespace MediaBalanceCMS.Controllers
                 var products = Res.Content.ReadAsStringAsync();
                 //If there is a list and a single value in the incoming response, first of all, it is necessary to create the appropriate class and meet it.
                 var productCatagoryVM = JsonConvert.DeserializeObject<RootProductCategoryResponseVM>(products.Result);
-                
+
                 ResponsVM vm = new ResponsVM()
                 {
                     productReguest = productCatagoryVM.productReguest,
                     catagoryReguests = productCatagoryVM.catagoryReguests
                 };
                 return View(vm);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProductEdidt(ResponsVM responsVM)
+        {
+            ProductVM productVM = new ProductVM()
+            {
+                CategoryId = responsVM.productReguest.CategoryId,
+                Id = responsVM.productReguest.Id,
+                Name = responsVM.productReguest.Name,
+                Price = responsVM.productReguest.Price,
+                Whiting = responsVM.productReguest.Whiting,
+                Color = responsVM.productReguest.Color
+            };
+
+            if (productVM.CategoryId == 0 || productVM.Name == null || productVM.Price == null)
+            {
+                return RedirectToAction("ProductAdd", new { id = 4 });
+            }
+            using (var client = new HttpClient())
+            {
+                //Passing service base url
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage Res = await client.PostAsJsonAsync("home/proUpdate", productVM);
+
+                return RedirectToAction("ProductIndex", new { id = 3 });
             }
         }
 

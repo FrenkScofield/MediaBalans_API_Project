@@ -22,7 +22,6 @@ namespace MediaBalansApiProject.Controllers
         {
             _userService = userService;
             _context = context;
-
         }
 
         [HttpPost]
@@ -144,6 +143,16 @@ namespace MediaBalansApiProject.Controllers
 
             return Ok(catagoryProductReguest);
 
+        }
+
+       [HttpPost]
+       [Route("proUpdate")]
+       public IActionResult ProductEdit(ProductReguest productReguest)
+        {
+
+            _userService.ProductEdit(productReguest);
+
+            return Ok();
         }
     }
 }

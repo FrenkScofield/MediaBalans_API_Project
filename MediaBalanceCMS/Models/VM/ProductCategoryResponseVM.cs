@@ -10,19 +10,19 @@ namespace MediaBalanceCMS.Models.VM
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
         public class CatagoryReguest
         {
-            public int id { get; set; }
-            public string name { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
         }
 
         public class ProductReguest
         {
-            public int id { get; set; }
-            public string name { get; set; }
-            public string price { get; set; }
-            public string whiting { get; set; }
-            public string color { get; set; }
-            public int categoryId { get; set; }
-            public string categoryName { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Price { get; set; }
+            public string Whiting { get; set; }
+            public string Color { get; set; }
+            public int CategoryId { get; set; }
+            public string CategoryName { get; set; }
         }
 
         public class RootProductCategoryResponseVM
