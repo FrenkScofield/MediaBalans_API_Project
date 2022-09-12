@@ -134,13 +134,38 @@ namespace MediaBalanceCMS.Controllers
         }
 
         [HttpGet]
-        public IActionResult CatagoryAdd(int? id)
+        public async Task<IActionResult> CatagoryAdd(int? id)
         {
             if (id == 4)
             {
                 ViewBag.Modal = 4;
             }
-            return View();
+            else if (id == 3)
+            {
+                ViewBag.Modal = 3;
+            }
+            else if (id == 0)
+            {
+                ViewBag.Modal = 0;
+            }
+            //return View();
+            List<CategoryVM> resultCategories = null;
+            using (var client = new HttpClient())
+            {
+                //Passing service base url
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+                HttpResponseMessage Res = await client.GetAsync($"home/getcategory");
+                var categories = Res.Content.ReadAsStringAsync();
+                resultCategories = JsonConvert.DeserializeObject<List<CategoryVM>>(categories.Result);
+
+                return View(resultCategories);
+            }
+
         }
 
         [HttpPost]
@@ -161,7 +186,22 @@ namespace MediaBalanceCMS.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient
                 HttpResponseMessage Res = await client.PostAsJsonAsync("home/postcategory", categoryVM);
-                return RedirectToAction("ProductIndex", new { id = 3 });
+                return RedirectToAction("CatagoryAdd", new { id = 3 });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryDelete(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                //Passing service base url
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format
+                var deleteTask = await client.DeleteAsync($"home/categoryDelete/{id}");
+
+                return RedirectToAction("CatagoryAdd");
             }
         }
 

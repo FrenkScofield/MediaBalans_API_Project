@@ -1,8 +1,11 @@
-﻿
+﻿@model IEnumerable<MediaBalanceCMS.Models.VM.CategoryVM>
 @{
     ViewData["Title"] = "CatagoryAdd";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!--Fontawesome CDN-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <div style="position: absolute; margin-top: 160px;">
 
@@ -11,37 +14,88 @@
 </div>
 
 <div class="container">
-    <div class=" justify-content-center h-100">
-        <h1 class="indexTitle" style="margin-bottom: 50px;">Category Add</h1>
+    <div class="row">
+        <div class="col-12">
+            <h1 class="indexTitle" style="margin-bottom: 50px;">Category Add</h1>
+        </div>
+        <div class="col-6">
+            <div class=" justify-content-center h-100">
 
-        <div class="card" style=" height: 188px; width: 400px; margin-left: 32%;">
-            <div class="card-body">
-                <a asp-action="ProductIndex" class="btn btn-secondary" style="margin-bottom:10px; float:right">Back to Product Index</a>
 
-                <form asp-action="CatagoryAdd" method="post">
-                    <div class="input-group form-group">
-                        <input type="text" name="Name" class="form-control" placeholder="Catagory Name">
+                <div class="card" style=" height: 188px; width: 400px;">
+                    <div class="card-body">
+                        <a asp-action="ProductIndex" class="btn btn-secondary" style="margin-bottom:10px; float:right">Back to Product Index</a>
+
+                        <form asp-action="CatagoryAdd" method="post">
+                            <div class="input-group form-group">
+                                <input type="text" name="Name" class="form-control" placeholder="Catagory Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Add" class="btn btn-success float-right ">
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Add" class="btn btn-success float-right ">
-                    </div>
-                </form>
-            </div>
-            @if (ViewBag.Modal == 4)
-            {
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="alert alert-danger" role="alert">
-                            Please Enter Category Name
+                    @if (ViewBag.Modal == 4)
+                    {
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="alert alert-danger" role="alert">
+                                    Please Enter Category Name
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <button id="btn-exampleModalCenter" class="btn d-none" data-toggle="modal" data-target="#exampleModalCenter"></button>
+                    }
                 </div>
-                <button id="btn-exampleModalCenter" class="btn d-none" data-toggle="modal" data-target="#exampleModalCenter"></button>
-
-            }
+            </div>
 
         </div>
+        <div class="col-6">
+            <h4 style=" color: white; font-weight: 600; font-size: 26px; font-family: emoji;">Category List</h4>
+            <div style="height: 300px; overflow-y: scroll; width: 50%">
+                <table class="table table-striped table-bordered table-sm" style=" background-color: white;  " cellspacing="0"
+                       width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">
+                                Name
+                            </th>
+                            <th class="th-sm">
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a asp-action="CategoryDelete" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')"><i class="fas fa-fw fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+        @if (ViewBag.Modal == 3)
+        {
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="alert alert-success" role="alert">
+                        Succeed Added
+                    </div>
+                </div>
+            </div>
+            <button id="btn-exampleModalCenter" class="btn d-none" data-toggle="modal" data-target="#exampleModalCenter"></button>
+
+        }
     </div>
+
+
 
 </div>
 @section scripts{

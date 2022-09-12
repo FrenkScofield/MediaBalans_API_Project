@@ -79,6 +79,17 @@ namespace MediaBalansApiProject.Services
             return _context.Categories.ToList();
         }
 
+        public void CategoryDelete(int id)
+        {
+            var cat = _context.Categories.Find(id);
+
+            if (cat.Id == id)
+            {
+                _context.Categories.Remove(cat);
+            }
+            _context.SaveChanges();
+        }
+
         public void ProductDelete(int id)
         {
             var pro = _context.Products.Find(id);

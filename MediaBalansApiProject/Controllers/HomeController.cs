@@ -22,7 +22,7 @@ namespace MediaBalansApiProject.Controllers
         {
             _userService = userService;
             _context = context;
-        }
+        }     
 
         [HttpPost]
         [Route("postcategory")]
@@ -80,6 +80,14 @@ namespace MediaBalansApiProject.Controllers
 
 
             return Ok(catagoryReguest);
+        }
+
+        [HttpDelete]
+        [Route("categoryDelete/{id}")]
+        public IActionResult CategoryDelete(int id)
+        {
+            _userService.CategoryDelete(id);
+            return Ok();
         }
 
         [HttpPost]
